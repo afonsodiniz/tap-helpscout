@@ -104,8 +104,6 @@ class HelpScoutClient:
         data = response.json()
 
         self.__access_token = data["access_token"]
-        self.__refresh_token = data["refresh_token"]
-
         if data.get("refresh_token") is not None:
             self.__refresh_token = data["refresh_token"]
             ## refresh_token rotates on every reauth
