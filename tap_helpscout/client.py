@@ -55,6 +55,9 @@ class HelpScoutClient:
         max_tries=7,
         factor=3,
     )
+    
+    
+    
     def get_access_token(self):
         """Generates access token required to send http requests."""
         # If tap is being executed in dev_mode then disable tap from creating new refresh and
@@ -73,16 +76,27 @@ class HelpScoutClient:
         if self.__user_agent:
             headers["User-Agent"] = self.__user_agent
 
-        response = self.__session.post(
-            url="https://api.helpscout.net/v2/oauth2/token",
-            headers=headers,
-            data={
-                "grant_type": "refresh_token",
-                "client_id": self.__client_id,
-                "client_secret": self.__client_secret,
-                "refresh_token": self.__refresh_token,
-            },
-        )
+        if self.__refresh_token is None or self.__refresh_token == "":
+            response = self.__session.post(
+                url="https://api.helpscout.net/v2/oauth2/token",
+                headers=headers,
+                data={
+                    "grant_type": "client_credentials",
+                    "client_id": self.__client_id,
+                    "client_secret": self.__client_secret,
+                },
+            )
+        else:
+            response = self.__session.post(
+                url="https://api.helpscout.net/v2/oauth2/token",
+                headers=headers,
+                data={
+                    "grant_type": "refresh_token",
+                    "client_id": self.__client_id,
+                    "client_secret": self.__client_secret,
+                    "refresh_token": self.__refresh_token,
+                },
+            )
 
         if response.status_code >= 400:
             raise_for_error(response)
@@ -102,6 +116,16 @@ class HelpScoutClient:
 
         expires_seconds = data["expires_in"] - 60  # pad by 60 seconds
         self.__expires = datetime.now(timezone.utc) + timedelta(seconds=expires_seconds)
+
+# original
+# 61 - 107 = 47
+
+# forked
+# 46 - 94  = 49
+
+
+
+
 
     @backoff.on_exception(
         wait_gen=backoff.expo,
