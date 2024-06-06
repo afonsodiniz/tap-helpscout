@@ -106,23 +106,17 @@ class HelpScoutClient:
         self.__access_token = data["access_token"]
         self.__refresh_token = data["refresh_token"]
 
-        # Refresh token rotates on every re-auth
-        with open(self.__config_path) as file:
-            config = json.load(file)
-        config["refresh_token"] = self.__refresh_token
-        config["access_token"] = self.__access_token
-        with open(self.__config_path, "w") as file:
-            json.dump(config, file, indent=2)
+        if data.get("refresh_token") is not None:
+            self.__refresh_token = data["refresh_token"]
+            ## refresh_token rotates on every reauth
+            with open(self.__config_path) as file:
+                config = json.load(file)
+            config["refresh_token"] = data["refresh_token"]
+            with open(self.__config_path, "w") as file:
+                json.dump(config, file, indent=2)
 
         expires_seconds = data["expires_in"] - 60  # pad by 60 seconds
         self.__expires = datetime.now(timezone.utc) + timedelta(seconds=expires_seconds)
-
-# original
-# 61 - 107 = 47
-
-# forked
-# 46 - 94  = 49
-
 
 
 
