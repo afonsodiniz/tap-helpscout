@@ -183,34 +183,6 @@
       ],
       "format": "date-time"
     },
-    "customer_waiting_since": {
-      "type": [
-        "null",
-        "object"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "time": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "format": "date-time"
-        },
-        "friendly": {
-          "type": [
-            "null",
-            "string"
-          ]
-        },
-        "last_reply_from": {
-          "type": [
-            "null",
-            "string"
-          ]
-        }
-      }
-    },
     "source": {
       "type": [
         "null",
