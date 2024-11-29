@@ -14,12 +14,6 @@
         "integer"
       ]
     },
-    "threads": {
-      "type": [
-        "null",
-        "integer"
-      ]
-    },
     "type": {
       "type": [
         "null",
@@ -45,12 +39,6 @@
       ]
     },
     "subject": {
-      "type": [
-        "null",
-        "string"
-      ]
-    },
-    "preview": {
       "type": [
         "null",
         "string"
